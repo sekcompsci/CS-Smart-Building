@@ -5,20 +5,52 @@
 
     <div class="btn-floating">
       <div class="btn-bg"></div>
-      <button type="button" class="btn btn-default btn-toggle" data-toggle="toggle" data-target="#help-actions">
-        <i class="icon fa fa-plus"></i>
-        <span class="help-text">Shortcut</span>
-      </button>
-      <div class="toggle-content">
-        <ul class="actions">
-          <li><a href="#">Website</a></li>
-          <li><a href="#">Documentation</a></li>
-          <li><a href="#">Issues</a></li>
-          <li><a href="#">About</a></li>
-        </ul>
+      <div>
+        <button type="button" class="btn btn-default btn-toggle" data-toggle="modal" data-target="#myModal">
+            <i class="icon fa fa-plus"></i>
+            <span class="help-text">Shortcut</span>
+        </button>
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card card-mini">
+          <div class="card-header">
+            <div class="card-title">Device01</div>
+          </div>
+          <div class="card-body no-padding table-responsive" *ngFor="let sensor of sensors">
+            <div class="col-md-12">
+              <br>
+              <p>Door status: {{ door }}</p>
+              <p>Light Level: {{ sensor.light }}</p>
+              <p>Temperature: {{ sensor.temp }}</p>
+              <p>Humidity   : {{ sensor.hum }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">Add Device</h4>
+          </div>
+          <div class="modal-body">
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+              dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit
+              lobortis nisl</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-sm btn-success">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <app-footer></app-footer>
   </div>
 </div>
