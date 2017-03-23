@@ -25,7 +25,7 @@
               <p>Door status: {{ door }}</p>
               <p>Light Level: {{ sensor.light }}</p>
               <p>Temperature: {{ sensor.temp }}</p>
-              <p>Humidity   : {{ sensor.hum }}</p>
+              <p>Humidity : {{ sensor.hum }}</p>
             </div>
           </div>
         </div>
@@ -40,9 +40,16 @@
             <h4 class="modal-title">Add Device</h4>
           </div>
           <div class="modal-body">
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-              dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit
-              lobortis nisl</p>
+            <form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Device Name:</label>
+                <input type="text" class="form-control" placeholder="e.g. device1, device2 etc.">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Description:</label>
+                <input type="text" class="form-control" placeholder="e.g. device checking CSB306 room.">
+              </div>
+            </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>

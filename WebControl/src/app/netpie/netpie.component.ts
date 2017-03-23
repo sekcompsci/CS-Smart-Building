@@ -44,15 +44,16 @@ export class NetpieComponent implements OnInit {
       this.subscribe("/#");
     });
 
-    // this.microgear.on('present', function (event) {
-    //   console.log(event);
-    // });
+    this.microgear.on('present', function (event) {
+      console.log(event);
+    });
 
-    // this.microgear.on('absent', function (event) {
-    //   console.log(event);
-    // });
+    this.microgear.on('absent', function (event) {
+      console.log(event);
+    });
 
     this.microgear.connect(this.APPID);
+    this.microgear.disconnect();
   }
 
 }
