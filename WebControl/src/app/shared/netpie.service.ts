@@ -1,27 +1,37 @@
 import { Injectable } from '@angular/core';
-declare var Microgear: any;
+declare const Microgear: any;
 
 @Injectable()
 export class NetpieService {
 
+  public door;
+  public sensors;
+
   constructor() {
-    var APPID     = 'CSSmartBuilding';
-    var APPKEY    = '0EFWZTxu2Lga7Ri';
-    var APPSECRET = 'uZHKAJhecrcR5neX0CH5SDySg';
-    var ALIAS     = 'myhtml';
+    const APPID     = 'CSSmartBuilding';
+    const APPKEY    = '0EFWZTxu2Lga7Ri';
+    const APPSECRET = 'uZHKAJhecrcR5neX0CH5SDySg';
+    const ALIAS     = 'myhtml';
+    const _self = this;
 
-    var _self = this;
-
-    var microgear = new Microgear.create({
+    const microgear = new Microgear.create({
       key: APPKEY,
       secret: APPSECRET,
       alias: ALIAS
     });
 
     microgear.on('message', function (topic, msg) {
-      console.log("New message!");
-      console.log("from: " + topic);
-      console.log("msg: " + msg);
+      if(topic == '/CSSmartBuilding/device01/switch') {
+        _self.door = msg;
+      }
+
+      if(topic == '/CSSmartBuilding/device01/sensor') {
+        var input = msg.split(':');
+
+        _self.sensors = [
+          { light: input[0], hum: input[1], temp: input[2] }
+        ]
+      }
     });
 
     microgear.on('connected', function () {
@@ -30,14 +40,6 @@ export class NetpieService {
       this.useTLS(true);
       this.subscribe("/#");
     });
-
-    // this.microgear.on('present', function (event) {
-    //   console.log(event);
-    // });
-
-    // this.microgear.on('absent', function (event) {
-    //   console.log(event);
-    // });
 
     microgear.connect(APPID);
   }
