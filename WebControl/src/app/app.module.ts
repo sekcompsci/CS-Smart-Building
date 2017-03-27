@@ -11,7 +11,6 @@ import { routing } from './app.routing';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AuthenComponent } from './authen/authen.component';
-import { NetpieComponent } from './netpie/netpie.component';
 import { AsideComponent } from './shared/aside/aside.component';
 import { NavComponent } from './shared/nav/nav.component';
 import { FooterComponent } from './shared/footer/footer.component';
@@ -26,7 +25,6 @@ import { NetpieService } from './shared/netpie.service';
 @NgModule({
   declarations: [
     AppComponent,
-    NetpieComponent,
     HomeComponent,
     AuthenComponent,
     AsideComponent,

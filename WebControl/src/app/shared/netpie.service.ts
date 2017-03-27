@@ -12,7 +12,7 @@ export class NetpieService {
     const APPKEY    = '0EFWZTxu2Lga7Ri';
     const APPSECRET = 'uZHKAJhecrcR5neX0CH5SDySg';
     const ALIAS     = 'myhtml';
-    const _self = this;
+    const _self     = this;
 
     const microgear = new Microgear.create({
       key: APPKEY,
