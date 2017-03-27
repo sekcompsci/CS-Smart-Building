@@ -6,13 +6,15 @@ import { AuthenComponent } from './authen/authen.component';
 import { NetpieComponent } from './netpie/netpie.component';
 import { DeviceComponent } from './device/device.component';
 import { UserComponent } from './user/user.component';
+import { SpeechComponent } from './speech/speech.component';
 
 const appRoutes: Routes = [
     { path: '', component: AuthenComponent },
     { path: 'home', component: HomeComponent },
     { path: 'netpie', component: NetpieComponent },
     { path: 'device', component: DeviceComponent },
-    { path: 'user', component: UserComponent }
+    { path: 'user', component: UserComponent },
+    { path: 'speech', component: SpeechComponent }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
