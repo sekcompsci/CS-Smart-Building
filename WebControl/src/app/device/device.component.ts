@@ -73,6 +73,11 @@ export class DeviceComponent {
     this.resetFrom();
   }
 
+  removeCatagory(id) {
+    const index = this.devices.findIndex(device => device.id === id);
+    this.devices.splice(index, 1);
+  }
+
   private resetFrom() {
     this.model = new Device();
   }

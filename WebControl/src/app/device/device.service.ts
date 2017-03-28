@@ -8,15 +8,15 @@ export class DeviceService {
 
   constructor() { }
 
-  getDevice() {
+  getCatagory() {
     return this.devices;
   }
 
-  addDevice(device: Device) {
+  addCatagory(device: Device) {
     this.devices.push(device);
   }
 
-  removeDevice(id) {
+  removeCatagory(id) {
     const index = this.devices.findIndex(device => device.id === id);
     this.devices.splice(index, 1);
   }

@@ -18,6 +18,7 @@
         <div class="card card-mini">
           <div class="card-header">
             <div class="card-title">ชั้น 1</div>
+            <button type="button" class="btn btn-danger pull-right">ลบ</button>
           </div>
           <div class="card-body no-padding table-responsive">
             <div class="col-md-12">
@@ -31,10 +32,20 @@
                     <div class="card-body no-padding table-responsive" *ngFor="let sensor of sensors">
                       <div class="col-md-12">
                         <br>
-                        <p>Door status: {{ door }}</p>
-                        <p>Light Level: {{ sensor.light }}</p>
-                        <p>Temperature: {{ sensor.temp }}</p>
-                        <p>Humidity : {{ sensor.hum }}</p>
+                        <div *ngIf="door == 0">
+                          <div class="alert alert-info" style="text-align: center">Door Status: <strong>Close</strong></div>
+                        </div>
+                        <div *ngIf="door == 1">
+                          <div class="alert alert-danger" style="text-align: center">Door Status: <strong>Open</strong></div>
+                        </div>
+                        <p>Light Level</p>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" attr.aria-valuenow="{{ sensor.light }}" aria-valuemin="0" aria-valuemax="100" [style.width]="sensor.light + '%'">
+                                <span class="sr-only">{{ sensor.light }}% Complete</span>
+                            </div>
+                        </div>
+                        <p>Temperature: <b style="font-size: 1.5em;">{{ sensor.temp }}</b></p>
+                        <p>Humidity : <b style="font-size: 1.5em;">{{ sensor.hum }}</b></p>
                       </div>
                     </div>
                   </div>
@@ -51,7 +62,7 @@
         <div class="card card-mini">
           <div class="card-header">
             <div class="card-title">{{ device.catagoryName }} <small>{{ device.catagoryDescription }}</small></div>
-            <button type="button" class="btn btn-danger pull-right">ลบ</button>
+            <button type="button" class="btn btn-danger pull-right" (click)="removeCatagory(device.id)">ลบ</button>
           </div>
           <div class="card-body no-padding table-responsive">
             <div class="col-md-12">
@@ -64,7 +75,7 @@
       </div>
     </div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -85,7 +96,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-sm btn-success" (click)="addCatagory()">Add</button>
+            <button type="button" class="btn btn-sm btn-success" data-dismiss="modal" (click)="addCatagory()">Add</button>
           </div>
         </div>
       </div>
