@@ -46,19 +46,18 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-3">
+    <div class="row" *ngFor="let device of devices">
+      <div class="col-md-12">
         <div class="card card-mini">
           <div class="card-header">
-            <div class="card-title">Device01</div>
+            <div class="card-title">{{ device.catagoryName }} <small>{{ device.catagoryDescription }}</small></div>
+            <button type="button" class="btn btn-danger pull-right">ลบ</button>
           </div>
-          <div class="card-body no-padding table-responsive" *ngFor="let sensor of sensors">
+          <div class="card-body no-padding table-responsive">
             <div class="col-md-12">
               <br>
-              <p>Door status: {{ door }}</p>
-              <p>Light Level: {{ sensor.light }}</p>
-              <p>Temperature: {{ sensor.temp }}</p>
-              <p>Humidity : {{ sensor.hum }}</p>
+              <!--เพิ่มอุปกรณ์-->
+              <button type="button" class="btn btn-info pull-right">เพิ่มอุปกรณ์</button>
             </div>
           </div>
         </div>
@@ -70,23 +69,23 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title">Add Device</h4>
+            <h4 class="modal-title">Add Catagory</h4>
           </div>
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <label for="exampleInputEmail1">Device Name:</label>
-                <input type="text" class="form-control" placeholder="e.g. device1, device2 etc.">
+                <label for="exampleInputEmail1">Catagory Name:</label>
+                <input type="text" class="form-control" placeholder="เช่น ชั้นที่ 1, ชั้นที่ 2, ชั้นดาดฟ้า เป็นต้น" name="catagoryName" [(ngModel)]="model.catagoryName">
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword1">Description:</label>
-                <input type="text" class="form-control" placeholder="e.g. device checking CSB306 room.">
+                <input type="text" class="form-control" placeholder="เช่น ชั้นสำหรับเรียนปฎิบัติการ เป็นต้น" name="catagoryDescription" [(ngModel)]="model.catagoryDescription">
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-sm btn-success">Add</button>
+            <button type="button" class="btn btn-sm btn-success" (click)="addCatagory()">Add</button>
           </div>
         </div>
       </div>

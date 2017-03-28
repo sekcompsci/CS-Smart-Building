@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Device } from './device.model';
 declare const Microgear;
 
 @Component({
@@ -9,6 +10,7 @@ declare const Microgear;
 
 export class DeviceComponent {
 
+  // NETPIE
   private microgear: any;
   private door: any;
   private sensors: any;
@@ -54,5 +56,24 @@ export class DeviceComponent {
   ngOnDestroy() {
     this.microgear.client.disconnect();
     this.microgear.client = '';
+  }
+
+
+  // FORM
+  model: Device;
+  devices = [];
+
+  constructor() {
+    this.resetFrom();
+  }
+
+  addCatagory() {
+    this.devices.push(this.model);
+    console.log(this.model);
+    this.resetFrom();
+  }
+
+  private resetFrom() {
+    this.model = new Device();
   }
 }
