@@ -8,7 +8,7 @@
           </button>
         </li>
         <li class="logo">
-          <a class="navbar-brand" href="#"><span class="highlight">Flat v3</span> Admin</a>
+          <a class="navbar-brand" href="#"><span class="highlight">WebControl</span> Admin</a>
         </li>
         <li>
           <button type="button" class="navbar-toggle">
@@ -16,12 +16,10 @@
           </button>
         </li>
       </ul>
-      <ul class="nav navbar-nav navbar-left">
-        <li class="navbar-title">Dashboard</li>
-        <li class="navbar-search hidden-sm">
-          <input id="search" type="text" placeholder="Search..">
-          <button class="btn-search"><i class="fa fa-search"></i></button>
-        </li>
+      <ul class="nav navbar-nav navbar-left" [ngSwitch]="router.url">
+        <li class="navbar-title" *ngSwitchCase="'/home'">Dashboard</li>
+        <li class="navbar-title" *ngSwitchCase="'/device'">Device Manager</li>
+        <li class="navbar-title" *ngSwitchCase="'/user'">User Manager</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown notification danger">
@@ -35,13 +33,7 @@
               <li class="dropdown-header">Notification</li>
               <li>
                 <a href="#">
-                  <span class="badge badge-danger pull-right">8</span>
-                  <div class="message">
-                    <div class="content">
-                      <div class="title">New Order</div>
-                      <div class="description">$400 total</div>
-                    </div>
-                  </div>
+                  <span class="badge badge-danger pull-right">8</span> New Update
                 </a>
               </li>
               <li>

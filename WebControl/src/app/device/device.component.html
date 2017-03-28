@@ -14,6 +14,39 @@
     </div>
 
     <div class="row">
+      <div class="col-md-12">
+        <div class="card card-mini">
+          <div class="card-header">
+            <div class="card-title">ชั้น 1</div>
+          </div>
+          <div class="card-body no-padding table-responsive">
+            <div class="col-md-12">
+              <br>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="card card-mini">
+                    <div class="card-header">
+                      <div class="card-title">Device01</div>
+                    </div>
+                    <div class="card-body no-padding table-responsive" *ngFor="let sensor of sensors">
+                      <div class="col-md-12">
+                        <br>
+                        <p>Door status: {{ door }}</p>
+                        <p>Light Level: {{ sensor.light }}</p>
+                        <p>Temperature: {{ sensor.temp }}</p>
+                        <p>Humidity : {{ sensor.hum }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-info pull-right">เพิ่มอุปกรณ์</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-3">
         <div class="card card-mini">
           <div class="card-header">
