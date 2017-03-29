@@ -11,14 +11,16 @@
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label></label>
-                                <input type="text" class="form-control border-input" name="txtSpeechSearchMovieName" id="txtSpeechSearchMovieName" value="" placeholder="Click below button and then say something!!!" [(ngModel)]="speechData">
+                                <input type="text" class="form-control border-input" name="txtSpeechSearchMovieName" id="txtSpeechSearchMovieName" value=""
+                                       placeholder="Click below button and then say something!!!" [(ngModel)]="speechData">
                             </div>
                         </div>
                         <div class="col-md-2"></div>
                     </div>
                     <br />
                     <div class="text-center">
-                        <button class="btn btn-info btn-fill btn-wd" name="btnActivateSpeechSearchMovie" id="btnActivateSpeechSearchMovie" (click)="activateSpeechSearchMovie()" [disabled]="!showSearchButton">
+                        <button class="btn btn-info btn-fill btn-wd" name="btnActivateSpeechSearchMovie" id="btnActivateSpeechSearchMovie" (click)="activateSpeechSearchMovie()"
+                                [disabled]="!showSearchButton">
                             Enable Speech Search
                         </button>
                     </div>
