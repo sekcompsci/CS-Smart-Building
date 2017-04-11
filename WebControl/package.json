@@ -20,18 +20,16 @@
     "@angular/platform-browser": "latest",
     "@angular/platform-browser-dynamic": "latest",
     "@angular/router": "latest",
-    "@google-cloud/speech": "latest",
+    "@google-cloud/speech": "^0.7.0",
     "core-js": "latest",
-    "d3": "^4.7.4",
-    "lodash": "latest",
     "rxjs": "latest",
     "zone.js": "latest"
   },
   "devDependencies": {
     "@angular/cli": "latest",
     "@angular/compiler-cli": "latest",
-    "@types/d3": "^4.7.0",
     "@types/jasmine": "latest",
+    "@types/node": "latest",
     "@types/lodash": "latest",
     "codelyzer": "latest",
     "jasmine-core": "latest",
@@ -39,13 +37,12 @@
     "karma": "latest",
     "karma-chrome-launcher": "latest",
     "karma-cli": "latest",
-    "karma-coverage-istanbul-reporter": "latest",
     "karma-jasmine": "latest",
     "karma-jasmine-html-reporter": "latest",
+    "karma-coverage-istanbul-reporter": "latest",
     "protractor": "latest",
     "ts-node": "latest",
     "tslint": "latest",
-    "typescript": "latest",
-    "typings": "latest"
+    "typescript": "latest"
   }
 }
