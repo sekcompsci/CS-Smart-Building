@@ -20,7 +20,9 @@
     "@angular/platform-browser": "latest",
     "@angular/platform-browser-dynamic": "latest",
     "@angular/router": "latest",
+    "@google-cloud/speech": "latest",
     "core-js": "latest",
+    "d3": "^4.7.4",
     "lodash": "latest",
     "rxjs": "latest",
     "zone.js": "latest"
@@ -28,9 +30,9 @@
   "devDependencies": {
     "@angular/cli": "latest",
     "@angular/compiler-cli": "latest",
+    "@types/d3": "^4.7.0",
     "@types/jasmine": "latest",
     "@types/lodash": "latest",
-    "@types/node": "latest",
     "codelyzer": "latest",
     "jasmine-core": "latest",
     "jasmine-spec-reporter": "latest",
