@@ -54,8 +54,10 @@ export class DeviceComponent {
   }
 
   ngOnDestroy() {
-    this.microgear.client.disconnect();
-    this.microgear.client = '';
+    if(this.microgear) {
+      this.microgear.client.disconnect();
+      this.microgear.client = '';
+    }
   }
 
 
