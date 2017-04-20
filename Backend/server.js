@@ -1,6 +1,8 @@
 import express from 'express'
 import fs from 'fs'
 import bodyParser from 'body-parser'
+import config from './config'
+import auth from './middlewares/auth'
 
 function setupRoutes(app) {
     const APP_DIR = `${__dirname}/app`
@@ -19,8 +21,9 @@ function setupRoutes(app) {
 
 export function setup() {
     const app = express()
-    const port = 3000
+    const port = config.port
 
+    app.use(auth)
     app.use(bodyParser.urlencoded({ extended: true }))
     app.use(bodyParser.json())
 

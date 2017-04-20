@@ -16,7 +16,7 @@ const Model = {
     },
     update(id, attrs) {
         const  collection = this.collection()
-        const indox = this.findIndex(id)
+        const index = this.findIndex(id)
         const updatedRecord = this.withPermittedAttrs(attrs, collection[index])
         this.setCollection([
             ...collection.slice(0, index), 

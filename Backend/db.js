@@ -30,13 +30,13 @@ export default {
             id: 1,
             email: 'babelcoder@gmail.com',
             isAdmin: true,
-            password: '$2a$12$.rjS5eXZpVo3aC2TuRsV0.8qzBOVPM01zguiMTKwb1bYxIVR7PtQS'
+            password: '$2a$12$AmL9izOSg4.mkRp823jZDOy8dvlvWTB00hUCtuMF8HG7Pclrq/khK'
         },
         {
             id: 2,
             email: 'somchai@gmail.com',
             isAdmin: false,
-            password: '$2a$12$.rjS5eXZpVo3aC2TuRsV0.8qzBOVPM01zguiMTKwb1bYxIVR7PtQS'
+            password: '$2a$12$AmL9izOSg4.mkRp823jZDOy8dvlvWTB00hUCtuMF8HG7Pclrq/khK'
         }
     ]
 }

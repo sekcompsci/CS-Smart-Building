@@ -1,21 +1,28 @@
 import Users from './model'
+import UsersSerializer from './serializer.js'
 
 const UserController = {
     getAll(req, res) {
         res.json({
-            users: Users.findAll()
+            users: UsersSerializer.for('getAll', Users.findAll())
         })
     },
     get(req, res) {
         res.json({
-            user: Users.find(req.params.id)
+            user: UsersSerializer.for('get', Users.find(req.params.id))
         })
     },
     create(req, res) {
-        const user = Users.create({ email: req.body.email })
-        res.json({
-            user
-        })
+        const { email, password } = req.body
+
+        Users.create(email, password).then(
+            user => {
+                res
+                .header('Authorization', `Bearer ${Users.genToken(user)}`)
+                .status(201)
+                .json({user: UsersSerializer.for('create', user)})
+            }
+        )
     }
 }
 
