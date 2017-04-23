@@ -17,14 +17,15 @@ export class SpeechComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log("hello")
+    this.activateSpeechSearch()
   }
 
   ngOnDestroy() {
     this.speechRecognitionService.DestroySpeechObject();
   }
 
-  activateSpeechSearchMovie(): void {
-    this.showSearchButton = false;
+  activateSpeechSearch(): void {
+    // this.showSearchButton = false;
 
     this.speechRecognitionService.record()
       .subscribe(
@@ -38,14 +39,14 @@ export class SpeechComponent implements OnInit, OnDestroy {
         console.log(err);
         if (err.error == "no-speech") {
           console.log("--restatring service--");
-          this.activateSpeechSearchMovie();
+          this.activateSpeechSearch();
         }
       },
       //completion
       () => {
         this.showSearchButton = true;
         console.log("--complete--");
-        this.activateSpeechSearchMovie();
+        this.activateSpeechSearch();
       });
   }
 }

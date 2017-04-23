@@ -35,7 +35,7 @@ export class SpeechService {
                         }
                         else {
                             term = _.trim(transcript);
-                            console.log("Did you said? -> " + term + " , If not then say something else...");
+                            console.log("Did you said? -> " + term);
                         }
                     }
                 }
