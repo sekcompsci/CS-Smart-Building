@@ -1,3 +1,5 @@
+import mysql from 'nodejs-mysql'
+import configs from '../config'
 import db from '../db'
 
 const Model = {

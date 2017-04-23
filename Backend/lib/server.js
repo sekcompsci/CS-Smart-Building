@@ -15,7 +15,7 @@ function setupRoutes(app) {
         const routes = require(`${APP_DIR}/${feature}/routes.js`)
 
         routes.setup(router)
-        app.use(`/${feature}`,router)
+        app.use(`/${feature}`, router)
     })
 }
 

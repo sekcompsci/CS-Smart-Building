@@ -3,10 +3,10 @@ import Serializer from '../serializer'
 const SessionsSerializer = {
     ...Serializer,
 
-    create(user) {
-        const { id, email, isAdmin } = user
+    login(user) {
+        const { uid, name, email, tel, isAdmin } = user
 
-        return { id, email, isAdmin }
+        return { uid, name, email, tel, isAdmin }
     }
 }
 
