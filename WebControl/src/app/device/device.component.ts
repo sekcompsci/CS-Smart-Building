@@ -29,11 +29,11 @@ export class DeviceComponent {
   }
 
   ngOnDestroy() {
-    if (this.microgear) {
+    if(this.microgear.client != null) {
       this.microgear.client.disconnect();
-      this.microgear.client = '';
+      this.microgear.client = null;
     }
-
+    
     this.speechRecognitionService.DestroySpeechObject();
   }
 
