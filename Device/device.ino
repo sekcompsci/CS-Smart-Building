@@ -30,12 +30,6 @@ DHT dht(DHTPIN, DHTTYPE);
 #define LDR A0
 int Switch_value, ldr_value;
 
-// Config Lelay
-#define RELAY_ON 1
-#define RELAY_OFF 0
-#define Relay 5
-
-
 // Initial time & delay for millis()
 long timeSwitch = 0;
 long timeSensor = 0;
@@ -72,9 +66,6 @@ void onConnected(char *attribute, uint8_t* msg, unsigned int msglen) {
 void setup() {
   Serial.begin(115200);
   dht.begin();
-
-  digitalWrite(Relay, RELAY_OFF); //Relay Status
-  pinMode(Relay, OUTPUT); // Relay Pin
 
   pinMode(Switch, INPUT); // Switch Pin
   pinMode(LDR, INPUT); // LDR Pin
@@ -151,11 +142,9 @@ void loop() {
       Switch_value = digitalRead(Switch); //reads the Switch values
       if (Switch_value == HIGH) {
         digitalWrite(LED, HIGH);   // turn the LED on
-        digitalWrite(Relay, RELAY_ON);
       }
       else if (Switch_value == LOW) {
         digitalWrite(LED, LOW);   // turn the LED off
-        digitalWrite(Relay, RELAY_OFF);
       }
 
       microgear.publish("/device01/switch", Switch_value, true);
