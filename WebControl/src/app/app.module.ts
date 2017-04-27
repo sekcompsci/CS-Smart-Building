@@ -21,7 +21,6 @@ import { SpeechComponent } from './speech/speech.component';
 // Service
 import { SpeechService } from './shared/speech.service';
 import { NetpieService } from './shared/netpie.service';
-import { DeviceService } from './device/device.service';
 
 @NgModule({
   declarations: [
@@ -43,8 +42,7 @@ import { DeviceService } from './device/device.service';
   ],
   providers: [
     SpeechService,
-    NetpieService,
-    DeviceService
+    NetpieService
   ],
   bootstrap: [AppComponent]
 })

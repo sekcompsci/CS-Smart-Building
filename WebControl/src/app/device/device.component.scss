@@ -95,6 +95,12 @@ $ease: all .6s cubic-bezier(0.23, 1, 0.32, 1);
 	}
 }
 
+.res-txt {
+	position: absolute;
+	text-align: center;
+	top: 18%;
+}
+
 .dots {
 	position: absolute;
 	top: 50%;

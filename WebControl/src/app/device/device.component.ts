@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SpeechService } from '../shared/speech.service';
-import { Device } from './device.model';
+import { Groups } from './group.model';
+import { Devices } from './device.module';
 declare const Microgear;
 declare const $: any;
 
@@ -14,31 +15,33 @@ export class DeviceComponent {
 
   // NETPIE
   private microgear: any;
-  private door: any;
-  private sensors: any;
+  private deviceForm: Devices;
+  private devices = [];
 
   // Speech API
   private speechState: number;
+  private txt_respon: string;
 
   // FORM
-  private model: Device;
-  private devices = [];
+  private groupForm: Groups;
+  private groups = [];
 
   ngOnInit() {
     this.speechSearch();
   }
 
   ngOnDestroy() {
-    if(this.microgear.client != null) {
+    if (this.microgear.client != null) {
       this.microgear.client.disconnect();
       this.microgear.client = null;
     }
-    
+
     this.speechRecognitionService.DestroySpeechObject();
   }
 
   constructor(private speechRecognitionService: SpeechService) {
-    this.resetFrom();
+    this.resetGroupFrom();
+    this.resetDeviceForm();
 
     // NETPIE
     const APPID = 'CSSmartBuilding';
@@ -54,17 +57,24 @@ export class DeviceComponent {
     });
 
     this.microgear.on('message', function (topic, msg) {
+      const topic_name = topic.split('/');
+      console.log(topic_name);
 
-      if (topic == '/CSSmartBuilding/device01/switch') {
-        _self.door = msg;
+      if(!_self.isEmpty(_self.devices)) {
+        const device = _self.devices.find(devices => devices.name === topic_name[2]);
+        console.log(device.id);
+
+        if (topic_name[3] == 'switch') {
+          _self.devices[device.id].door = msg;
+        }
       }
 
-      if (topic == '/CSSmartBuilding/device01/sensor') {
-        var input = msg.split(':');
+      if (topic_name[3] == 'sensor') {
+        const sensor = msg.split(':');
 
-        _self.sensors = [
-          { light: input[0], hum: input[1], temp: input[2] }
-        ]
+        // _self.devices[device.id] = [
+        //   { "light": input[0], "hum": input[1], "temp": input[2] }
+        // ];
       }
     });
 
@@ -81,19 +91,53 @@ export class DeviceComponent {
     this.speechState = 0;
   }
 
+  isEmpty(obj) {
+    // null and undefined are "empty"
+    if (obj == null) return true;
+    if (obj.length > 0) return false;
+    if (obj.length === 0) return true;
+    if (typeof obj !== "object") return true;
+  }
+
   addCatagory() {
-    this.devices.push(this.model);
-    console.log(this.model);
-    this.resetFrom();
+    this.groups.push(this.groupForm);
+    console.log(this.groupForm);
+    this.resetGroupFrom();
   }
 
   removeCatagory(id) {
-    const index = this.devices.findIndex(device => device.id === id);
+    const index = this.groups.findIndex(groups => groups.id === id);
+    this.groups.splice(index, 1);
+  }
+
+  resetGroupFrom() {
+    this.groupForm = new Groups();
+  }
+
+  addDevice(gid) {
+    const id = this.devices.length + 1;
+
+    this.deviceForm.id = id;
+    this.deviceForm.gid = gid;
+    this.deviceForm.name = 'device' + id;
+    this.deviceForm.description = '';
+    this.deviceForm.light = 50;
+    this.deviceForm.hum = 45;
+    this.deviceForm.temp = 25;
+    this.deviceForm.door = 0;
+
+    this.devices.push(this.deviceForm);
+    console.log(this.deviceForm);
+    this.resetDeviceForm();
+  }
+
+  removeDevice(id) {
+    const index = this.devices.findIndex(devices => devices.id === id);
     this.devices.splice(index, 1);
   }
 
-  private resetFrom() {
-    this.model = new Device();
+  resetDeviceForm() {
+    this.deviceForm = new Devices;
   }
 
   speechOpen() {
@@ -106,24 +150,27 @@ export class DeviceComponent {
     var bw = button.innerWidth();
     var bh = button.innerHeight();
     var s;
-    
+
     mic.hide();
 
     if (vw > vh) {
-        s = vw / bw * 2.5;
-      } else {
-        s = vh / bh * 2.5;
-      }
-      var scale = 'scale(' + s + ') translate(-50%,-50%)';
+      s = vw / bw * 2.5;
+    } else {
+      s = vh / bh * 2.5;
+    }
+    var scale = 'scale(' + s + ') translate(-50%,-50%)';
 
-      button.css({
-        transform: scale
-      });
+    button.css({
+      transform: scale
+    });
 
-      button.on('transitionend', function () {
-        active.addClass('active');
-        $(this).off('transitionend');
-      });
+    button.on('transitionend', function () {
+      active.addClass('active');
+      $(this).off('transitionend');
+    });
+
+    this.speechState = 1;
+    this.txt_respon = 'เรากำลังฟังอยู่...';
   }
 
   speechClose() {
@@ -134,6 +181,8 @@ export class DeviceComponent {
     active.removeClass('active');
     button.removeAttr('style');
     mic.show();
+
+    this.speechState = 0;
   }
 
   speechSearch() {
@@ -145,10 +194,16 @@ export class DeviceComponent {
           this.speechState = 1;
           this.speechOpen();
         } else if (this.speechState == 1) {
+          this.txt_respon = value;
           console.log(value);
-          this.speechClose();
 
-          this.speechState = 0;
+          if (value == 'reload') {
+            window.location.reload(true);
+
+            return
+          } else if (value == 'ยกเลิก') {
+            this.speechClose();
+          }
         }
       },
       //errror
@@ -165,15 +220,5 @@ export class DeviceComponent {
         console.log("--complete--");
         this.speechSearch();
       });
-  }
-
-  speechStartClick() {
-    this.speechOpen()
-    this.speechState = 1;
-  }
-
-  speechStopClick() {
-    this.speechClose()
-    this.speechState = 0;
   }
 }

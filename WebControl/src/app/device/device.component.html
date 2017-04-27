@@ -6,7 +6,7 @@
     <div class="wrapper">
       <div class="button-wrapper">
           <div class="button">
-            <svg class="button-svg" viewBox="0 0 24 24" (click)="speechStartClick()">
+            <svg class="button-svg" viewBox="0 0 24 24" (click)="speechOpen()">
               <path d="M12 15c1.66 0 2.99-1.34 2.99-3l.01-6c0-1.66-1.34-3-3-3s-3 1.34-3 3v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1s-5.3-2.1-5.3-5.1h-1.7c0 3.42 2.72 6.23 6 6.72v3.28h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
               <path d="M0 0h24v24h-24z" fill="none"/>
             </svg>
@@ -14,8 +14,9 @@
       </div>
 
       <div class="active-wrapper">
+        <div class="res-txt">{{ txt_respon }}</div>
         <div class="stop-button">
-          <svg class="stop-button-svg" viewBox="0 0 24 24" (click)="speechStopClick()">
+          <svg class="stop-button-svg" viewBox="0 0 24 24" (click)="speechClose()">
           <path d="M0 0h24v24H0z" fill="none"/>
           <path d="M6 6h12v12H6z"/>
         </svg>
@@ -107,7 +108,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <!--<div class="row">
       <div class="col-md-12">
         <div class="card card-mini">
           <div class="card-header">
@@ -150,19 +151,49 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="row" *ngFor="let device of devices">
+    </div>-->
+
+    <div class="row" *ngFor="let group of groups">
       <div class="col-md-12">
         <div class="card card-mini">
           <div class="card-header">
-            <div class="card-title">{{ device.catagoryName }} <small>{{ device.catagoryDescription }}</small></div>
-            <button type="button" class="btn btn-danger pull-right" (click)="removeCatagory(device.id)">ลบ</button>
+            <div class="card-title">{{ group.catagoryName }} <small>{{ group.catagoryDescription }}</small></div>
+            <button type="button" class="btn btn-danger pull-right" (click)="removeCatagory(group.id)">ลบ</button>
           </div>
           <div class="card-body no-padding table-responsive">
             <div class="col-md-12">
               <br>
               <!--เพิ่มอุปกรณ์-->
-              <button type="button" class="btn btn-info pull-right">เพิ่มอุปกรณ์</button>
+              <div class="row">
+                <div class="col-md-12" *ngFor="let device of devices">
+                  <div class="card card-mini">
+                    <div class="card-header">
+                      <div class="card-title">{{ device.name }}</div>
+                    </div>
+                    <div class="card-body no-padding table-responsive">
+                      <div class="col-md-12">
+                        <br>
+                        <div *ngIf="device.door == 0">
+                          <div class="alert alert-info" style="text-align: center">Door Status: <strong>Close</strong></div>
+                        </div>
+                        <div *ngIf="device.door == 1">
+                          <div class="alert alert-danger" style="text-align: center">Door Status: <strong>Open</strong></div>
+                        </div>
+                        <p>Light Level</p>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" attr.aria-valuenow="{{ device.light }}" aria-valuemin="0" aria-valuemax="100" [style.width]="device.light + '%'">
+                                <span class="sr-only">{{ device.light }}% Complete</span>
+                            </div>
+                        </div>
+                        <p>Temperature: <b style="font-size: 1.5em;">{{ device.temp }}</b></p>
+                        <p>Humidity : <b style="font-size: 1.5em;">{{ device.hum }}</b></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <button type="button" class="btn btn-info pull-right" (click)="addDevice(group.id)">เพิ่มอุปกรณ์</button>
             </div>
           </div>
         </div>
@@ -180,11 +211,11 @@
             <form>
               <div class="form-group">
                 <label for="exampleInputEmail1">Catagory Name:</label>
-                <input type="text" class="form-control" placeholder="เช่น ชั้นที่ 1, ชั้นที่ 2, ชั้นดาดฟ้า เป็นต้น" name="catagoryName" [(ngModel)]="model.catagoryName">
+                <input type="text" class="form-control" placeholder="เช่น ชั้นที่ 1, ชั้นที่ 2, ชั้นดาดฟ้า เป็นต้น" name="catagoryName" [(ngModel)]="groupForm.catagoryName">
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword1">Description:</label>
-                <input type="text" class="form-control" placeholder="เช่น ชั้นสำหรับเรียนปฎิบัติการ เป็นต้น" name="catagoryDescription" [(ngModel)]="model.catagoryDescription">
+                <input type="text" class="form-control" placeholder="เช่น ชั้นสำหรับเรียนปฎิบัติการ เป็นต้น" name="catagoryDescription" [(ngModel)]="groupForm.catagoryDescription">
               </div>
             </form>
           </div>

@@ -17,7 +17,7 @@ const Model = {
         return record
     },
     update(id, attrs) {
-        const  collection = this.collection()
+        const collection = this.collection()
         const index = this.findIndex(id)
         const updatedRecord = this.withPermittedAttrs(attrs, collection[index])
         this.setCollection([
