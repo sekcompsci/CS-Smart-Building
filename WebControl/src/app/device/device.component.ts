@@ -65,16 +65,16 @@ export class DeviceComponent {
         console.log(device.id);
 
         if (topic_name[3] == 'switch') {
-          _self.devices[device.id].door = msg;
+          _self.devices[device.id - 1].door = msg;
         }
-      }
 
-      if (topic_name[3] == 'sensor') {
-        const sensor = msg.split(':');
+        if (topic_name[3] == 'sensor') {
+          const sensor = msg.split(':');
 
-        // _self.devices[device.id] = [
-        //   { "light": input[0], "hum": input[1], "temp": input[2] }
-        // ];
+          _self.devices[device.id - 1].light = sensor[0];
+          _self.devices[device.id - 1].hum = sensor[1];
+          _self.devices[device.id - 1].temp = sensor[2];
+        }
       }
     });
 
@@ -122,8 +122,8 @@ export class DeviceComponent {
     this.deviceForm.name = 'device' + id;
     this.deviceForm.description = '';
     this.deviceForm.light = 50;
-    this.deviceForm.hum = 45;
-    this.deviceForm.temp = 25;
+    this.deviceForm.hum = 0;
+    this.deviceForm.temp = 0;
     this.deviceForm.door = 0;
 
     this.devices.push(this.deviceForm);

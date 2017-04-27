@@ -17,6 +17,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { DeviceComponent } from './device/device.component';
 import { UserComponent } from './user/user.component';
 import { SpeechComponent } from './speech/speech.component';
+import { DeviceDetailComponent } from './device-detail/device-detail.component';
 
 // Service
 import { SpeechService } from './shared/speech.service';
@@ -32,7 +33,8 @@ import { NetpieService } from './shared/netpie.service';
     FooterComponent,
     DeviceComponent,
     UserComponent,
-    SpeechComponent
+    SpeechComponent,
+    DeviceDetailComponent
   ],
   imports: [
     BrowserModule,

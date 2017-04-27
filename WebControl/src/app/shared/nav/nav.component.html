@@ -19,6 +19,7 @@
       <ul class="nav navbar-nav navbar-left" [ngSwitch]="router.url">
         <li class="navbar-title" *ngSwitchCase="'/home'">Dashboard</li>
         <li class="navbar-title" *ngSwitchCase="'/device'">Device Manager</li>
+        <li class="navbar-title" *ngSwitchCase="'/device/:id'">Device Detail</li>
         <li class="navbar-title" *ngSwitchCase="'/user'">User Manager</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
