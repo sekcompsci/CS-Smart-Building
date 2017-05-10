@@ -3,22 +3,15 @@ import jwt from 'jsonwebtoken'
 import mysql from 'nodejs-mysql'
 import config from '../../config'
 import db from '../../db'
+import Model from '../model'
 
 const Users = {
+    ...Model,
+
     key: 'users',
+    _id: 'uid',
     permittedAttrs: ['email'],
 
-    findAll() {
-        return new Promise((resolve, reject) => {
-            db.exec('SELECT * FROM users')
-            .then(rows => {
-                return resolve(rows)
-            })
-            .catch(e => {
-                return reject(e)
-            })
-        })
-    },
     create(name, email, password, tel) {
         return new Promise((resolve, reject) => {
             bcrypt.hash(password, 12, function(err, hash) {

@@ -1,6 +1,7 @@
 import express from 'express'
 import fs from 'fs'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 import config from './config'
 import auth from './middlewares/auth'
 
@@ -22,10 +23,16 @@ function setupRoutes(app) {
 export function setup() {
     const app = express()
     const port = config.port
+    const corsOption = {
+        origin: "*",
+        methods: "GET,PUT,PATCH,POST,DELETE",
+        allowedHeaders: ['content-type', 'Authorization']
+    }
 
     app.use(auth)
     app.use(bodyParser.urlencoded({ extended: true }))
     app.use(bodyParser.json())
+    app.use(cors(corsOption))
 
     setupRoutes(app)
 

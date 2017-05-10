@@ -20,19 +20,19 @@
             <div class="form-header">
               <div class="app-brand"><span class="highlight">WebControl</span> Admin</div>
             </div>
-            <form action="/" method="POST">
+            <form>
               <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1">
                 <i class="fa fa-user" aria-hidden="true"></i></span>
-                <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+                <input type="text" class="form-control" placeholder="Email" aria-describedby="basic-addon1" [(ngModel)]="email" name="email">
               </div>
               <div class="input-group">
                 <span class="input-group-addon" id="basic-addon2">
                 <i class="fa fa-key" aria-hidden="true"></i></span>
-                <input type="text" class="form-control" placeholder="Password" aria-describedby="basic-addon2">
+                <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2" [(ngModel)]="password" name="password">
               </div>
               <div class="text-center">
-                <input type="submit" class="btn btn-success btn-submit" value="Login" routerLink='/home'>
+                <input type="submit" class="btn btn-success btn-submit" (click)="submitLogin()">
               </div>
             </form>
           </div>

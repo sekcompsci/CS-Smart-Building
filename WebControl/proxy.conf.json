@@ -1,0 +1,8 @@
+{
+  "/sessions": {
+    "target": "https://api.sirawit.me",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

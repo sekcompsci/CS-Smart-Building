@@ -5,9 +5,15 @@ import db from '../db'
 const Model = {
     findAll() {
         return this.collection()
+        .then(data => {
+            return data
+        })
     },
     find(id) {
-        return this.findRecord(id)
+        this.findRecord(id)
+        .then(data => {
+            return data
+        })
     },
     create(attrs) {
         const collection = this.collection()
@@ -39,10 +45,30 @@ const Model = {
     },
 
     collection() {
-        return db[this.key]
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM ' + this.key
+
+            db.exec(sql)
+            .then(rows => {
+                return resolve(rows)
+            })
+            .catch(e => {
+                return reject(e)
+            })
+        })
     },
     findRecord(id) {
-        return this.collection().find(user => user.id === +id)
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM ' + this.key + ' WHERE ' + this._id + ' = ? LIMIT 1'
+
+            db.exec('SELECT * FROM users WHERE uid = ? LIMIT 1', [id])
+            .then(rows => {
+                rows.forEach(row => { return row })
+            })
+            .catch(e => {
+                return e
+            })
+        })
     },
     findIndex(id) {
         this.collection().findIndex(record => record.id === +id)

@@ -2,7 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 
 // Custom File
 import { routing } from './app.routing';
@@ -16,12 +16,12 @@ import { NavComponent } from './shared/nav/nav.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { DeviceComponent } from './device/device.component';
 import { UserComponent } from './user/user.component';
-import { SpeechComponent } from './speech/speech.component';
 import { DeviceDetailComponent } from './device-detail/device-detail.component';
 
 // Service
 import { SpeechService } from './shared/speech.service';
 import { NetpieService } from './shared/netpie.service';
+import { AuthenService } from './authen/authen.service';
 
 @NgModule({
   declarations: [
@@ -33,18 +33,19 @@ import { NetpieService } from './shared/netpie.service';
     FooterComponent,
     DeviceComponent,
     UserComponent,
-    SpeechComponent,
     DeviceDetailComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    JsonpModule,
     routing
   ],
   providers: [
     SpeechService,
-    NetpieService
+    NetpieService,
+    AuthenService
   ],
   bootstrap: [AppComponent]
 })

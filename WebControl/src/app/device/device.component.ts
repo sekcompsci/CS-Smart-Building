@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { SpeechService } from '../shared/speech.service';
 import { Groups } from './group.model';
 import { Devices } from './device.module';
@@ -11,7 +12,7 @@ declare const $: any;
   styleUrls: ['./device.component.scss']
 })
 
-export class DeviceComponent {
+export class DeviceComponent implements OnInit, OnDestroy {
 
   // NETPIE
   private microgear: any;
@@ -20,11 +21,14 @@ export class DeviceComponent {
 
   // Speech API
   private speechState: number;
-  private txt_respon: string;
+  public txt_respon: string;
 
   // FORM
-  private groupForm: Groups;
-  private groups = [];
+  public groupForm: Groups;
+  public groups = [];
+  public alert = '';
+  public display_door;
+  public display_light;
 
   ngOnInit() {
     this.speechSearch();
@@ -39,8 +43,8 @@ export class DeviceComponent {
     this.speechRecognitionService.DestroySpeechObject();
   }
 
-  constructor(private speechRecognitionService: SpeechService) {
-    this.resetGroupFrom();
+  constructor(private speechRecognitionService: SpeechService, private router: Router) {
+    this.resetGroupForm();
     this.resetDeviceForm();
 
     // NETPIE
@@ -58,11 +62,9 @@ export class DeviceComponent {
 
     this.microgear.on('message', function (topic, msg) {
       const topic_name = topic.split('/');
-      console.log(topic_name);
 
       if(!_self.isEmpty(_self.devices)) {
         const device = _self.devices.find(devices => devices.name === topic_name[2]);
-        console.log(device.id);
 
         if (topic_name[3] == 'switch') {
           _self.devices[device.id - 1].door = msg;
@@ -72,8 +74,7 @@ export class DeviceComponent {
           const sensor = msg.split(':');
 
           _self.devices[device.id - 1].light = sensor[0];
-          _self.devices[device.id - 1].hum = sensor[1];
-          _self.devices[device.id - 1].temp = sensor[2];
+          _self.devices[device.id - 1].temp = sensor[1];
         }
       }
     });
@@ -100,9 +101,14 @@ export class DeviceComponent {
   }
 
   addCatagory() {
-    this.groups.push(this.groupForm);
-    console.log(this.groupForm);
-    this.resetGroupFrom();
+    if(this.groupForm.catagoryName != null) {
+      this.groups.push(this.groupForm);
+      this.resetGroupForm();
+
+      this.alert = '';
+      $('#myModal').modal('hide');
+    }
+    else this.alert = 'กรุณากรอกชื่อหมวดหมู่';
   }
 
   removeCatagory(id) {
@@ -110,25 +116,24 @@ export class DeviceComponent {
     this.groups.splice(index, 1);
   }
 
-  resetGroupFrom() {
+  resetGroupForm() {
     this.groupForm = new Groups();
   }
 
   addDevice(gid) {
-    const id = this.devices.length + 1;
+    if(this.deviceForm.name != null) {
+      const id = this.devices.length + 1;
 
-    this.deviceForm.id = id;
-    this.deviceForm.gid = gid;
-    this.deviceForm.name = 'device' + id;
-    this.deviceForm.description = '';
-    this.deviceForm.light = 50;
-    this.deviceForm.hum = 0;
-    this.deviceForm.temp = 0;
-    this.deviceForm.door = 0;
+      this.deviceForm.id = id;
+      this.deviceForm.gid = gid;
+      this.deviceForm.description = '';
+      this.deviceForm.light = 50;
+      this.deviceForm.temp = 0;
+      this.deviceForm.door = 0;
 
-    this.devices.push(this.deviceForm);
-    console.log(this.deviceForm);
-    this.resetDeviceForm();
+      this.devices.push(this.deviceForm);
+      this.resetDeviceForm();
+    }
   }
 
   removeDevice(id) {
@@ -170,7 +175,7 @@ export class DeviceComponent {
     });
 
     this.speechState = 1;
-    this.txt_respon = 'เรากำลังฟังอยู่...';
+    this.txt_respon = 'คำสั่งของคุณคือ...';
   }
 
   speechClose() {
@@ -195,13 +200,24 @@ export class DeviceComponent {
           this.speechOpen();
         } else if (this.speechState == 1) {
           this.txt_respon = value;
-          console.log(value);
+          const values = value.split(' ');
 
-          if (value == 'reload') {
-            window.location.reload(true);
-
-            return
-          } else if (value == 'ยกเลิก') {
+          if (values[0] == 'ยกเลิก') {
+            this.speechClose();
+          } else if (values[0] == 'ตรวจ' && values[1] == 'device') {
+            this.router.navigate(['device', values[2]]);
+          } else if (values[0] == 'แสดงประตู') {
+            this.display_door = 'none';
+            this.speechClose();
+          } else if (values[0] == 'แสดงไฟ') {
+            this.display_light = 'none';
+            this.speechClose();
+          } else if (values[0] == 'แสดงทั้งหมด') {
+            this.display_door = '';
+            this.display_light = '';
+            this.speechClose();
+          } else if (values[0] == 'ย้อนกลับ') {
+            this.router.navigate(['device']);
             this.speechClose();
           }
         }

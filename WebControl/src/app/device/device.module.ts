@@ -4,7 +4,6 @@ export class Devices {
     name: string; 
     description: string; 
     light: number; 
-    hum: number;
     temp: number; 
     door: number;
 }

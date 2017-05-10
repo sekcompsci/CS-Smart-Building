@@ -130,21 +130,20 @@
                       <div class="card-body no-padding table-responsive">
                         <div class="col-md-12">
                           <br>
-                          <div *ngIf="device.door == 0">
-                            <div class="alert alert-info" style="text-align: center">Door Status: <strong>Close</strong></div>
-                          </div>
                           <div *ngIf="device.door == 1">
-                            <div class="alert alert-danger" style="text-align: center">Door Status: <strong>Open</strong></div>
+                            <div [style.display]="display_light" id="door" class="alert alert-info" style="text-align: center">Door Status: <strong>Close</strong></div>
                           </div>
-                          <p>Light Level</p>
-                          <div class="progress">
-                            <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" attr.aria-valuenow="{{ device.light }}"
+                          <div *ngIf="device.door == 0">
+                            <div [style.display]="display_light" id="door" class="alert alert-danger" style="text-align: center">Door Status: <strong>Open</strong></div>
+                          </div>
+                          <p [style.display]="display_door">Light Level</p>
+                          <div class="progress" [style.display]="display_door">
+                            <div id="light" class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" attr.aria-valuenow="{{ device.light }}"
                               aria-valuemin="0" aria-valuemax="100" [style.width]="device.light + '%'">
                               <span class="sr-only">{{ device.light }}% Complete</span>
                             </div>
                           </div>
-                          <p>Temperature: <b style="font-size: 1.5em;">{{ device.temp }}</b></p>
-                          <p>Humidity : <b style="font-size: 1.5em;">{{ device.hum }}</b></p>
+                          <p id="temp" [style.display]="display_door" [style.display]="display_light">Temperature: <b style="font-size: 1.5em;">{{ device.temp }}</b></p>
                         </div>
                       </div>
                     </div>
@@ -152,7 +151,15 @@
                 </div>
               </div>
               <br>
-              <button type="button" class="btn btn-info pull-right" (click)="addDevice(group.id)">เพิ่มอุปกรณ์</button>
+              <form (ngSubmit)="addDevice(group.id)">
+                <button type="submit" class="btn btn-info pull-right">เพิ่มอุปกรณ์</button>
+                <div class="input-group pull-right" style="max-width: 20%">
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                  </span>
+                  <input type="text" class="form-control" placeholder="ชื่ออุปกรณ์" [(ngModel)]="deviceForm.name" name="name">
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -167,6 +174,7 @@
             <h4 class="modal-title">Add Catagory</h4>
           </div>
           <div class="modal-body">
+            <div style="text-align: center; color:red;">{{ alert }}</div>
             <form>
               <div class="form-group">
                 <label for="exampleInputEmail1">Catagory Name:</label>
@@ -180,7 +188,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-sm btn-success" data-dismiss="modal" (click)="addCatagory()">Add</button>
+            <button type="button" class="btn btn-sm btn-success" (click)="addCatagory()">Add</button>
           </div>
         </div>
       </div>

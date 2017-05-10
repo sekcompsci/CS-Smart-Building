@@ -1,3 +1,11 @@
+.res-txt {
+	position: absolute;
+	text-align: center;
+	top: 18%;
+	font-size: 2em;
+	color: #FFF;
+}
+
 .card-mini {
 	margin-bottom: 20px;
 }
@@ -97,12 +105,6 @@ $ease: all .6s cubic-bezier(0.23, 1, 0.32, 1);
 			fill: tomato;
 		}
 	}
-}
-
-.res-txt {
-	position: absolute;
-	text-align: center;
-	top: 18%;
 }
 
 .dots {
