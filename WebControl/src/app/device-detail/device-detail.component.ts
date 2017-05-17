@@ -18,7 +18,6 @@ export class DeviceDetailComponent {
                  .subscribe(
                    device => {
                      this.devices.push(device);
-                     console.log(device);
                    },
                    error => console.error(error)
                  )
