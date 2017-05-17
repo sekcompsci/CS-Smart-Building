@@ -22,6 +22,9 @@ import { DeviceDetailComponent } from './device-detail/device-detail.component';
 import { SpeechService } from './shared/speech.service';
 import { NetpieService } from './shared/netpie.service';
 import { AuthenService } from './authen/authen.service';
+import { DeviceService } from './device/device.service';
+import { UserService } from './user/user.service';
+import { SearchFilterPipe } from './user/search-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,8 @@ import { AuthenService } from './authen/authen.service';
     FooterComponent,
     DeviceComponent,
     UserComponent,
-    DeviceDetailComponent
+    DeviceDetailComponent,
+    SearchFilterPipe
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,9 @@ import { AuthenService } from './authen/authen.service';
   providers: [
     SpeechService,
     NetpieService,
-    AuthenService
+    AuthenService,
+    DeviceService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

@@ -5,15 +5,9 @@ import db from '../db'
 const Model = {
     findAll() {
         return this.collection()
-        .then(data => {
-            return data
-        })
     },
     find(id) {
-        this.findRecord(id)
-        .then(data => {
-            return data
-        })
+        return this.findRecord(id)
     },
     create(attrs) {
         const collection = this.collection()
@@ -61,9 +55,9 @@ const Model = {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM ' + this.key + ' WHERE ' + this._id + ' = ? LIMIT 1'
 
-            db.exec('SELECT * FROM users WHERE uid = ? LIMIT 1', [id])
+            db.exec(sql, [id])
             .then(rows => {
-                rows.forEach(row => { return row })
+                return resolve(rows)
             })
             .catch(e => {
                 return e

@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpeechService } from '../shared/speech.service';
-import { Groups } from './group.model';
-import { Devices } from './device.module';
+import { DeviceService } from './device.service'
 declare const Microgear;
 declare const $: any;
 
@@ -12,30 +11,28 @@ declare const $: any;
   styleUrls: ['./device.component.scss']
 })
 
-export class DeviceComponent implements OnInit, OnDestroy {
+export class DeviceComponent implements OnDestroy {
 
   // NETPIE
   private microgear: any;
-  private deviceForm: Devices;
-  private devices = [];
+  private APPID = 'CSSmartBuilding';
+  private APPKEY = '0EFWZTxu2Lga7Ri';
+  private APPSECRET = 'uZHKAJhecrcR5neX0CH5SDySg';
+  private ALIAS = 'WebControl';
 
   // Speech API
   private speechState: number;
   public txt_respon: string;
 
   // FORM
-  public groupForm: Groups;
+  public devices = [];
   public groups = [];
   public alert = '';
-  public display_door;
-  public display_light;
-
-  ngOnInit() {
-    this.speechSearch();
-  }
+  private display_door;
+  private display_light;
 
   ngOnDestroy() {
-    if (this.microgear.client != null) {
+    if (this.microgear.client !== null) {
       this.microgear.client.disconnect();
       this.microgear.client = null;
     }
@@ -43,39 +40,49 @@ export class DeviceComponent implements OnInit, OnDestroy {
     this.speechRecognitionService.DestroySpeechObject();
   }
 
-  constructor(private speechRecognitionService: SpeechService, private router: Router) {
-    this.resetGroupForm();
-    this.resetDeviceForm();
+  constructor(private speechRecognitionService: SpeechService, private deviceService: DeviceService, private router: Router) {
+    deviceService.getAllGroup()
+                 .subscribe(
+                   groups => {
+                    this.groups = groups;
+                   },
+                   error => console.error(error)
+                 );
+    
+    deviceService.getAllDevice()
+                 .subscribe(
+                   devices => {
+                     this.devices = devices;
+                   },
+                   error => console.error(error)
+                 );
 
     // NETPIE
-    const APPID = 'CSSmartBuilding';
-    const APPKEY = '0EFWZTxu2Lga7Ri';
-    const APPSECRET = 'uZHKAJhecrcR5neX0CH5SDySg';
-    const ALIAS = 'WebControl';
     const _self = this;
 
     this.microgear = new Microgear.create({
-      key: APPKEY,
-      secret: APPSECRET,
-      alias: ALIAS
+      key: this.APPKEY,
+      secret: this.APPSECRET,
+      alias: this.ALIAS
     });
 
     this.microgear.on('message', function (topic, msg) {
+      if(_self.devices.length < 1) return;
+
       const topic_name = topic.split('/');
+      
+      const index = _self.devices.findIndex(devices => devices.name == topic_name[2]);
+      if(index < 0) return;
 
-      if(!_self.isEmpty(_self.devices)) {
-        const device = _self.devices.find(devices => devices.name === topic_name[2]);
+      if (topic_name[3] == 'switch') {
+        _self.devices[index].door = msg;
+      }
 
-        if (topic_name[3] == 'switch') {
-          _self.devices[device.id - 1].door = msg;
-        }
+      if (topic_name[3] == 'sensor') {
+        const sensor = msg.split(':');
 
-        if (topic_name[3] == 'sensor') {
-          const sensor = msg.split(':');
-
-          _self.devices[device.id - 1].light = sensor[0];
-          _self.devices[device.id - 1].temp = sensor[1];
-        }
+        _self.devices[index].light = sensor[0];
+        _self.devices[index].temp = sensor[1];
       }
     });
 
@@ -86,10 +93,11 @@ export class DeviceComponent implements OnInit, OnDestroy {
       this.subscribe('/#');
     });
 
-    this.microgear.connect(APPID);
+    this.microgear.connect(this.APPID);
 
     // Speech API
     this.speechState = 0;
+    this.speechSearch();
   }
 
   isEmpty(obj) {
@@ -100,49 +108,48 @@ export class DeviceComponent implements OnInit, OnDestroy {
     if (typeof obj !== "object") return true;
   }
 
-  addCatagory() {
-    if(this.groupForm.catagoryName != null) {
-      this.groups.push(this.groupForm);
-      this.resetGroupForm();
+  addGroup(value) {
+    if(value.groupFormName) {
+      this.deviceService.createGroup(value.groupFormName, value.groupFormDescription)
+                        .subscribe(
+                          group => {
+                            this.groups.push(group);
+                          },
+                          error => console.error(error)
+                        );
 
-      this.alert = '';
       $('#myModal').modal('hide');
+      this.alert = '';
     }
     else this.alert = 'กรุณากรอกชื่อหมวดหมู่';
   }
 
-  removeCatagory(id) {
-    const index = this.groups.findIndex(groups => groups.id === id);
-    this.groups.splice(index, 1);
+  removeGroup(id: number) {
+    this.deviceService.destroyGroup(id)
+                 .subscribe(
+                   res => {
+                    const index = this.groups.findIndex(groups => groups.gid == res);
+                    this.groups.splice(index, 1);
+                   },
+                   error => console.error(error)
+                 );
   }
 
-  resetGroupForm() {
-    this.groupForm = new Groups();
-  }
+  addDevice(value, gid) {
+    if(!value.deviceName) return;
 
-  addDevice(gid) {
-    if(this.deviceForm.name != null) {
-      const id = this.devices.length + 1;
-
-      this.deviceForm.id = id;
-      this.deviceForm.gid = gid;
-      this.deviceForm.description = '';
-      this.deviceForm.light = 50;
-      this.deviceForm.temp = 0;
-      this.deviceForm.door = 0;
-
-      this.devices.push(this.deviceForm);
-      this.resetDeviceForm();
-    }
+    this.deviceService.createDevice(value.deviceName, gid)
+                      .subscribe(
+                        device => {
+                          this.devices.push(device);
+                        },
+                        error => console.error(error)
+                      );
   }
 
   removeDevice(id) {
     const index = this.devices.findIndex(devices => devices.id === id);
     this.devices.splice(index, 1);
-  }
-
-  resetDeviceForm() {
-    this.deviceForm = new Devices;
   }
 
   speechOpen() {
@@ -224,7 +231,7 @@ export class DeviceComponent implements OnInit, OnDestroy {
       },
       //errror
       (err) => {
-        console.log(err);
+        console.error(err);
 
         if (err.error == 'no-speech') {
           console.log('--restatring service--');

@@ -12,7 +12,7 @@ const Users = {
     _id: 'uid',
     permittedAttrs: ['email'],
 
-    create(name, email, password, tel) {
+    create(name, email, tel, position, password) {
         return new Promise((resolve, reject) => {
             bcrypt.hash(password, 12, function(err, hash) {
                 if(err) return reject(err)
@@ -22,15 +22,13 @@ const Users = {
                     email: email,
                     password: hash,
                     tel: tel,
-                    isAdmin: false
+                    isAdmin: position
                 })
-                .then(rows => { 
-                    console.log('create user success.')
-                    return resolve({ uid: rows.insertId, email: email }) 
+                .then(rows => {
+                    return resolve({ uid: rows.insertId, name: name, email: email, tel:tel, isAdmin: position })
                 })
-                .catch(e => { 
-                    console.log('create user failed.')
-                    return reject(e) 
+                .catch(e => {
+                    return reject(e)
                 })
             });
         })
@@ -55,6 +53,19 @@ const Users = {
                 if(err) return reject(err)
 
                 return resolve(res)
+            })
+        })
+    },
+    destroy(id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'DELETE FROM ' + this.key + ' WHERE ?'
+
+            db.exec(sql, { uid: id })
+            .then(rows => { 
+                return resolve(id)
+            })
+            .catch(e => { 
+                return reject(e) 
             })
         })
     }

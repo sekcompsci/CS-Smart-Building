@@ -5,5 +5,6 @@ export function setup(router) {
         .get('/', controller.getAll)
         .get('/:id', controller.get)
         .post('/', controller.create)
+        .patch('/:id', controller.update)
         .delete('/:id', controller.destroy)
 }

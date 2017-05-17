@@ -5,26 +5,36 @@ const UserController = {
     getAll(req, res) {
         Users.findAll()
         .then(data => {
-            res.json({ user: UsersSerializer.for('getAll', data) })
+            res.json(UsersSerializer.for('getAll', data))
         })
     },
     get(req, res) {
         Users.find(req.params.id)
         .then(data => {
-            res.json({ user: UsersSerializer.for('get', data) })
+            res.json(UsersSerializer.for('get', data))
         })
     },
     create(req, res) {
-        const { name, email, password, tel } = req.body
+        const { name, email, tel, position, password } = req.body
 
-        Users.create(name, email, password, tel)
+        Users.create(name, email, tel, position, password)
             .then(user => {
                 res
-                .header('Authorization', `Bearer ${Users.genToken(user)}`)
+                // .header('Authorization', `Bearer ${Users.genToken(user)}`)
                 .status(201)
                 .json(user)
             }
         )
+    },
+    destroy(req, res) {
+        const id = req.params.id
+
+        Users.destroy(id)
+            .then(uid => {
+                res
+                .status(200)
+                .json(uid)
+            })
     }
 }
 
