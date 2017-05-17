@@ -13,6 +13,77 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="card">
+          <div class="card-header">
+            User Table
+          </div>
+          <div class="card-body no-padding">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+              <div class="top">
+                <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                  <label>
+                    <input type="search" class="form-control input-sm" placeholder="Search..." aria-controls="DataTables_Table_0" #search  (keyup)="0"/>
+                  </label>
+                </div>
+                <div class="dataTables_length" id="DataTables_Table_0_length">
+                  <label>
+                    <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control input-sm" #sliceVal (change)="0">
+                      <option>10</option>
+                      <option>25</option>
+                      <option>50</option>
+                      <option>100</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <table class="datatable table table-striped primary dataTable no-footer" cellspacing="0" width="100%" id="DataTables_Table_0"
+                role="grid" aria-describedby="DataTables_Table_0_info" style="width: 100%;">
+                <thead>
+                  <tr role="row">
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Tel</th>
+                    <th>Position</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr role="row" *ngFor="let user of (users | searchFilter: search.value | slice: 0:sliceVal.value); let i = index;" [attr.class]="i%2==0?'even':'odd'">
+                    <td class="sorting_1">{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.tel }}</td>
+                    <td *ngIf="user.isAdmin == 0">Admin</td>
+                    <td *ngIf="user.isAdmin == 1">User</td>
+                    <td>
+                      <button type="button" class="btn btn-success" (click)="editUser(user.uid)">Edit</button>
+                      <button type="button" class="btn btn-danger" (click)="removeUser(user.uid)">Delete</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="bottom">
+                <!--<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>-->
+                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                  <ul class="pagination">
+                    <li class="paginate_button previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0">Previous</a></li>
+                    <li class="paginate_button active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">1</a></li>
+                    <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0">2</a></li>
+                    <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0">3</a></li>
+                    <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0">4</a></li>
+                    <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0">5</a></li>
+                    <li class="paginate_button next" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="7" tabindex="0">Next</a></li>
+                  </ul>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
       <div class="modal-dialog">
@@ -22,13 +93,13 @@
             <h4 class="modal-title">Add User</h4>
           </div>
           <div class="modal-body">
-            <form class="form form-horizontal">
+            <form class="form form-horizontal" (ngSubmit)="addUser(u.value); u.reset()" #u="ngForm">
               <div class="form-group">
                 <div class="input-group">
                   <span class="input-group-addon">
                     <i class="fa fa-user" aria-hidden="true"></i>
                   </span>
-                  <input type="text" class="form-control" placeholder="Name" aria-describedby="basic-addon1" value="">
+                  <input type="text" class="form-control" placeholder="Name" aria-describedby="basic-addon1" name="name" ngModel />
                 </div>
               </div>
               <div class="form-group">
@@ -36,9 +107,10 @@
                   <span class="input-group-addon">
                     <i class="fa fa-flag" aria-hidden="true"></i>
                   </span>
-                  <select class="form-control select2">
-                    <option>User</option>
-                    <option>Admin</option>
+                  <select class="form-control select" name="position" ngModel>
+                    <option disabled selected value> -- select an option -- </option>
+                    <option ngValue="1">User</option>
+                    <option ngValue="0">Admin</option>
                   </select>
                 </div>
               </div>
@@ -47,7 +119,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-phone" aria-hidden="true"></i>
                   </span>
-                  <input type="text" class="form-control" placeholder="Tel">
+                  <input type="text" class="form-control" placeholder="Tel" name="tel" ngModel />
                 </div>
               </div>
               <div class="form-group">
@@ -55,99 +127,25 @@
                   <span class="input-group-addon">
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                   </span>
-                  <input type="text" class="form-control" placeholder="Email">
+                  <input type="text" class="form-control" placeholder="Email" name="email" ngModel />
                 </div>
               </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="fa fa-shield" aria-hidden="true"></i>
+                  </span>
+                  <input type="password" class="form-control" placeholder="Password" name="password" ngModel />
+                </div>
+              </div>
+              <div class="pull-right">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-sm btn-success">Add</button>
+              </div>
+              <br>
             </form>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-sm btn-success">Add</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="card">
-          <div class="card-header">
-            Usertable
-          </div>
-          <div class="card-body no-padding">
-            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-              <div class="top">
-                <div id="DataTables_Table_0_filter" class="dataTables_filter"><label><input type="search" class="form-control input-sm" placeholder="Search..." aria-controls="DataTables_Table_0"></label></div>
-                <div class="dataTables_length" id="DataTables_Table_0_length"><label><select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></label></div>
-                <div class="clear"></div>
-              </div>
-              <table class="datatable table table-striped primary dataTable no-footer" cellspacing="0" width="100%" id="DataTables_Table_0"
-                role="grid" aria-describedby="DataTables_Table_0_info" style="width: 100%;">
-                <thead>
-                  <tr role="row">
-                    <th class="sorting_asc" tabindex="0">Name</th>
-                    <th class="sorting" tabindex="0">Position</th>
-                    <th class="sorting" tabindex="0">Tel</th>
-                    <th class="sorting" tabindex="0">email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr role="row" class="odd">
-                    <td class="sorting_1">Sirawit Moonrinta</td>
-                    <td>Admin</td>
-                    <td>053-943411 ต่อ 102</td>
-                    <td>sirawit_m@cmu.ac.th</td>
-                  </tr>
-                  <tr role="row" class="even">
-                    <td class="sorting_1">Kittikawin	Leasean</td>
-                    <td>User</td>
-                    <td>053-943411 ต่อ 122</td>
-                    <td>kittikawin_l@cmu.ac.th</td>
-                  </tr>
-                  <tr role="row" class="odd">
-                    <td class="sorting_1">Patipat	Chuensuwannakul</td>
-                    <td>User</td>
-                    <td>053-943411 ต่อ 121</td>
-                    <td>patipat_c@cmu.ac.th</td>
-                  </tr>
-                  <tr role="row" class="even">
-                    <td class="sorting_1">Wutthiphat	Phuriphatwatthana</td>
-                    <td>Admin</td>
-                    <td>053-943411 ต่อ 213</td>
-                    <td>wutthiphat_p@cmu.ac.th</td>
-                  </tr>
-                  <tr role="row" class="even">
-                    <td class="sorting_1">Kamonchanok	Thapan</td>
-                    <td>User</td>
-                    <td>053-943411 ต่อ 124</td>
-                    <td>kamonchanok_t@cmu.ac.th</td>
-                  </tr>
-                  <tr role="row" class="even">
-                    <td class="sorting_1">Yasumin	Chunjit</td>
-                    <td>User</td>
-                    <td>053-943411 ต่อ 115</td>
-                    <td>yasumin_c@cmu.ac.th</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="bottom">
-                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
-                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                  <ul class="pagination">
-                    <li class="paginate_button previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0">Previous</a></li>
-                    <li class="paginate_button active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">1</a></li>
-                    <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0">2</a></li>
-                    <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0">3</a></li>
-                    <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0">4</a></li>
-                    <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0">5</a></li>
-                    <li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="6" tabindex="0">6</a></li>
-                    <li class="paginate_button next" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="7" tabindex="0">Next</a></li>
-                  </ul>
-                </div>
-                <div class="clear"></div>
-              </div>
-            </div>
-          </div>
+          <div class="modal-footer"></div>
         </div>
       </div>
     </div>

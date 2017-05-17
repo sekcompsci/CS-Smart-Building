@@ -1,32 +1,65 @@
-import { Injectable } from '@angular/core';
-// import { SpeechAPI } from '@google-cloud/speech';
+import { Injectable, NgZone  } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import * as _ from "lodash";
+
+interface IWindow extends Window {
+    webkitSpeechRecognition: any;
+    SpeechRecognition: any;
+}
 
 @Injectable()
 export class SpeechService {
+    speechRecognition: any;
 
-    // constructor() {
-    //   const projectId = '545759848185';
+    constructor(private zone: NgZone) {
+    }
 
-    //   // Instantiates a client
-    //   const speechClient = SpeechAPI({
-    //     projectId: projectId
-    //   });
+    record(): Observable<string> {
 
-    //   // The name of the audio file to transcribe
-    //   const fileName = './resources/audio.raw';
+        return Observable.create(observer => {
+            const { webkitSpeechRecognition }: IWindow = <IWindow>window;
+            this.speechRecognition = new webkitSpeechRecognition();
+            //this.speechRecognition = SpeechRecognition;
+            this.speechRecognition.continuous = true;
+            // this.speechRecognition.interimResults = true;
+            this.speechRecognition.lang = 'th-TH';
 
-    //   // The audio file's encoding and sample rate
-    //   const options = {
-    //     encoding: 'LINEAR16',
-    //     sampleRate: 16000
-    //   };
+            this.speechRecognition.onresult = speech => {
+                let term: string = "";
+                if (speech.results) {
+                    var result = speech.results[speech.resultIndex];
+                    var transcript = result[0].transcript;
+                    if (result.isFinal) {
+                        if (result[0].confidence < 0.3) {
+                            console.log("Unrecognized result - Please try again");
+                        }
+                        else {
+                            term = _.trim(transcript);
+                            console.log("Did you said? -> " + term);
+                        }
+                    }
+                }
+                this.zone.run(() => {
+                    observer.next(term);
+                });
+            };
 
-    //   // Detects speech in the audio file
-    //   speechClient.recognize(fileName, options)
-    //     .then((results) => {
-    //       const transcription = results[0];
-    //       console.log('Transcription: ${transcription}');
-    //     });
-    // }
+            this.speechRecognition.onerror = error => {
+                observer.error(error);
+            };
+
+            this.speechRecognition.onend = () => {
+                observer.complete();
+            };
+
+            this.speechRecognition.start();
+            console.log("Say something - We are listening !!!");
+        });
+    }
+
+    DestroySpeechObject() {
+        if (this.speechRecognition)
+            this.speechRecognition.stop();
+    }
 
 }

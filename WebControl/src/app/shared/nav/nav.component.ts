@@ -7,5 +7,5 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {
-  constructor(private router: Router){}
+  constructor(public router: Router){}
 }

@@ -1,0 +1,26 @@
+{
+  "/users": {
+    "target": "https://api.sirawit.me",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/sessions": {
+    "target": "https://api.sirawit.me",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/groups": {
+    "target": "https://api.sirawit.me",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/devices": {
+    "target": "https://api.sirawit.me",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

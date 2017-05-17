@@ -2,7 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 
 // Custom File
 import { routing } from './app.routing';
@@ -16,12 +16,15 @@ import { NavComponent } from './shared/nav/nav.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { DeviceComponent } from './device/device.component';
 import { UserComponent } from './user/user.component';
-import { SpeechComponent } from './speech/speech.component';
+import { DeviceDetailComponent } from './device-detail/device-detail.component';
 
 // Service
 import { SpeechService } from './shared/speech.service';
 import { NetpieService } from './shared/netpie.service';
+import { AuthenService } from './authen/authen.service';
 import { DeviceService } from './device/device.service';
+import { UserService } from './user/user.service';
+import { SearchFilterPipe } from './user/search-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -33,18 +36,22 @@ import { DeviceService } from './device/device.service';
     FooterComponent,
     DeviceComponent,
     UserComponent,
-    SpeechComponent
+    DeviceDetailComponent,
+    SearchFilterPipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    JsonpModule,
     routing
   ],
   providers: [
     SpeechService,
     NetpieService,
-    DeviceService
+    AuthenService,
+    DeviceService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

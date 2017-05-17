@@ -3,6 +3,102 @@
   <div class="app-container">
     <app-nav></app-nav>
 
+    <div class="wrapper">
+      <div class="button-wrapper">
+        <div class="button">
+          <svg class="button-svg" viewBox="0 0 24 24" (click)="speechOpen()">
+            <path d="M12 15c1.66 0 2.99-1.34 2.99-3l.01-6c0-1.66-1.34-3-3-3s-3 1.34-3 3v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1s-5.3-2.1-5.3-5.1h-1.7c0 3.42 2.72 6.23 6 6.72v3.28h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"
+            />
+            <path d="M0 0h24v24h-24z" fill="none" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="active-wrapper">
+        <div class="res-txt">{{ txt_respon }}</div>
+        <div class="stop-button">
+          <svg class="stop-button-svg" viewBox="0 0 24 24" (click)="speechClose()">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M6 6h12v12H6z" />
+          </svg>
+        </div>
+        <div class="dots">
+          <div class="dots-col">
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+          </div>
+          <div class="dots-col">
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+          </div>
+          <div class="dots-col">
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+          </div>
+          <div class="dots-col">
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+          </div>
+          <div class="dots-col">
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+          </div>
+          <div class="dots-col">
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+          </div>
+          <div class="dots-col">
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+          </div>
+          <div class="dots-col">
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+          </div>
+          <div class="dots-col">
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+            <div class="dots-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="btn-floating">
       <div class="btn-bg"></div>
       <div>
@@ -13,62 +109,57 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngFor="let group of groups">
       <div class="col-md-12">
         <div class="card card-mini">
           <div class="card-header">
-            <div class="card-title">ชั้น 1</div>
-            <button type="button" class="btn btn-danger pull-right">ลบ</button>
-          </div>
-          <div class="card-body no-padding table-responsive">
-            <div class="col-md-12">
-              <br>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="card card-mini">
-                    <div class="card-header">
-                      <div class="card-title">Device01</div>
-                    </div>
-                    <div class="card-body no-padding table-responsive" *ngFor="let sensor of sensors">
-                      <div class="col-md-12">
-                        <br>
-                        <div *ngIf="door == 0">
-                          <div class="alert alert-info" style="text-align: center">Door Status: <strong>Close</strong></div>
-                        </div>
-                        <div *ngIf="door == 1">
-                          <div class="alert alert-danger" style="text-align: center">Door Status: <strong>Open</strong></div>
-                        </div>
-                        <p>Light Level</p>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" attr.aria-valuenow="{{ sensor.light }}" aria-valuemin="0" aria-valuemax="100" [style.width]="sensor.light + '%'">
-                                <span class="sr-only">{{ sensor.light }}% Complete</span>
-                            </div>
-                        </div>
-                        <p>Temperature: <b style="font-size: 1.5em;">{{ sensor.temp }}</b></p>
-                        <p>Humidity : <b style="font-size: 1.5em;">{{ sensor.hum }}</b></p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <button type="button" class="btn btn-info pull-right">เพิ่มอุปกรณ์</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row" *ngFor="let device of devices">
-      <div class="col-md-12">
-        <div class="card card-mini">
-          <div class="card-header">
-            <div class="card-title">{{ device.catagoryName }} <small>{{ device.catagoryDescription }}</small></div>
-            <button type="button" class="btn btn-danger pull-right" (click)="removeCatagory(device.id)">ลบ</button>
+            <div class="card-title">{{ group.name }} <small>{{ group.description }}</small></div>
+            <button type="button" class="btn btn-danger pull-right" (click)="removeGroup(group.gid)">ลบ</button>
           </div>
           <div class="card-body no-padding table-responsive">
             <div class="col-md-12">
               <br>
               <!--เพิ่มอุปกรณ์-->
-              <button type="button" class="btn btn-info pull-right">เพิ่มอุปกรณ์</button>
+              <div class="row">
+                <div *ngFor="let device of devices">
+                  <div class="col-md-4 col-lg-3" *ngIf="group.gid == device.gid">
+                    <div class="card card-mini">
+                      <div class="card-header" style="border-left-width: 5px" [style.border-left-color]="device.status" [routerLink]="['/device', device.did]">
+                        <div class="card-title">{{ device.name }}</div>
+                      </div>
+                      <div class="card-body no-padding table-responsive">
+                        <div class="col-md-12">
+                          <br>
+                          <div *ngIf="device.door == 0">
+                            <div [style.display]="display_light" id="door" class="alert alert-info" style="text-align: center">Door Status: <strong>Close</strong></div>
+                          </div>
+                          <div *ngIf="device.door == 1">
+                            <div [style.display]="display_light" id="door" class="alert alert-danger" style="text-align: center">Door Status: <strong>Open</strong></div>
+                          </div>
+                          <p [style.display]="display_door">Light Level</p>
+                          <div class="progress" [style.display]="display_door">
+                            <div id="light" class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" attr.aria-valuenow="{{ device.light }}"
+                              aria-valuemin="0" aria-valuemax="100" [style.width]="device.light + '%'">
+                              <span class="sr-only">{{ device.light }}% Complete</span>
+                            </div>
+                          </div>
+                          <p id="temp" [style.display]="display_door" [style.display]="display_light">Temperature: <b style="font-size: 1.5em;">{{ device.temp }}</b></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <form (ngSubmit)="addDevice(d.value, group.gid); d.reset()" #d="ngForm">
+                <button type="submit" class="btn btn-info pull-right">เพิ่มอุปกรณ์</button>
+                <div class="input-group pull-right" style="max-width: 20%">
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                  </span>
+                  <input type="text" class="form-control" placeholder="ชื่ออุปกรณ์" name="deviceName" ngModel />
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -80,27 +171,31 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title">Add Catagory</h4>
+            <h4 class="modal-title">Add Group</h4>
           </div>
           <div class="modal-body">
-            <form>
+            <div style="text-align: center; color:red;">{{ alert }}</div>
+            <form (ngSubmit)="addGroup(f.value); f.reset()" #f="ngForm">
               <div class="form-group">
-                <label for="exampleInputEmail1">Catagory Name:</label>
-                <input type="text" class="form-control" placeholder="เช่น ชั้นที่ 1, ชั้นที่ 2, ชั้นดาดฟ้า เป็นต้น" name="catagoryName" [(ngModel)]="model.catagoryName">
+                <label for="exampleInputEmail1">Group Name:</label>
+                <input type="text" class="form-control" placeholder="เช่น ชั้นที่ 1, ชั้นที่ 2, ชั้นดาดฟ้า เป็นต้น" name="groupFormName" ngModel />
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword1">Description:</label>
-                <input type="text" class="form-control" placeholder="เช่น ชั้นสำหรับเรียนปฎิบัติการ เป็นต้น" name="catagoryDescription" [(ngModel)]="model.catagoryDescription">
+                <input type="text" class="form-control" placeholder="เช่น ชั้นสำหรับเรียนปฎิบัติการ เป็นต้น" name="groupFormDescription" ngModel />
               </div>
+              <div class="pull-right">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-sm btn-success">Add</button>
+              </div>
+              <br>
             </form>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-sm btn-success" data-dismiss="modal" (click)="addCatagory()">Add</button>
-          </div>
+          <div class="modal-footer"></div>
         </div>
       </div>
     </div>
+
     <app-footer></app-footer>
   </div>
 </div>

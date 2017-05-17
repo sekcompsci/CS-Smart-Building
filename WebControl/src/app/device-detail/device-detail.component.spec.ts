@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpeechComponent } from './speech.component';
+import { DeviceDetailComponent } from './device-detail.component';
 
-describe('SpeechComponent', () => {
-  let component: SpeechComponent;
-  let fixture: ComponentFixture<SpeechComponent>;
+describe('DeviceDetailComponent', () => {
+  let component: DeviceDetailComponent;
+  let fixture: ComponentFixture<DeviceDetailComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SpeechComponent ]
+      declarations: [ DeviceDetailComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SpeechComponent);
+    fixture = TestBed.createComponent(DeviceDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

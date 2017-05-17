@@ -1,0 +1,128 @@
+<div class="app app-blue-sky">
+  <app-aside></app-aside>
+  <div class="app-container">
+    <app-nav></app-nav>
+
+    <div class="btn-floating">
+      <div class="btn-bg"></div>
+      <div>
+        <button type="button" class="btn btn-default btn-toggle" routerLink='/device'>
+            <b style="color:#FFF">Back</b>
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12" *ngFor="let device of devices">
+        <div class="card card-mini">
+          <div class="card-header">
+            <div class="card-title">{{ device.name }}</div>
+          </div>
+          <div class="card-body no-padding table-responsive">
+            <div class="col-md-12">
+              <br>
+              <div *ngIf="device.door == 0" [style.display]="display_light" id="door" class="alert alert-info" style="text-align: center">Door Status: <strong>Close</strong></div>
+              <div *ngIf="device.door == 1" [style.display]="display_light" id="door" class="alert alert-danger" style="text-align: center">Door Status: <strong>Open</strong></div>
+              <p [style.display]="display_door">Light Level</p>
+              <div class="progress" [style.display]="display_door">
+                <div id="light" class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" attr.aria-valuenow="{{ device.light }}"
+                  aria-valuemin="0" aria-valuemax="100" [style.width]="device.light + '%'">
+                  <span class="sr-only">{{ device.light }}% Complete</span>
+                </div>
+              </div>
+              <p id="temp" [style.display]="display_door" [style.display]="display_light">Temperature: <b style="font-size: 1.5em;">{{ device.temp }}</b></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-mini">
+          <div class="card-header">
+            <div class="card-title"><h1>Log</h1></div>
+          </div>
+          <div class="card-body no-padding table-responsive">
+            <div class="col-md-4">
+              <br>
+              <table class="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th colspan="4" style="text-align: center;">Door Status</th>
+                  </tr>
+                  <tr>
+                    <th>Date/Time</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>27/04/2560 14:43:50</td>
+                    <td>Close</td>
+                  </tr>
+                  <tr>
+                    <td>27/04/2560 14:42:11</td>
+                    <td>Open</td>
+                  </tr>
+                  <tr>
+                    <td>27/04/2560 12:03:00</td>
+                    <td>Close</td>
+                  </tr>
+                  <tr>
+                    <td>27/04/2560 12:00:44</td>
+                    <td>Open</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-8">
+              <br>
+              <table class="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th colspan="4" style="text-align: center;">Sensors Status</th>
+                  </tr>
+                  <tr>
+                    <th>Date/Time</th>
+                    <th>Light</th>
+                    <th>Temperature</th>
+                    <th>Humidity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>27/04/2560 14:50:00</td>
+                    <td>80</td>
+                    <td>25</td>
+                    <td>41</td>
+                  </tr>
+                  <tr>
+                    <td>27/04/2560 14:49:00</td>
+                    <td>80</td>
+                    <td>26</td>
+                    <td>35</td>
+                  </tr>
+                  <tr>
+                    <td>27/04/2560 14:48:00</td>
+                    <td>100</td>
+                    <td>25</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>27/04/2560 14:47:00</td>
+                    <td>100</td>
+                    <td>30</td>
+                    <td>49</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</div>
