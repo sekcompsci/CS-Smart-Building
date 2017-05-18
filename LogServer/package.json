@@ -1,0 +1,13 @@
+{
+  "name": "log-server",
+  "version": "1.0.0",
+  "author": "Sirawit Moonrinta",
+  "license": "MIT",
+  "dependencies": {
+    "microgear": "^0.7.5",
+    "mysql": "^2.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
