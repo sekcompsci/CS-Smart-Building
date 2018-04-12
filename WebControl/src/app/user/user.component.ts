@@ -31,7 +31,7 @@ export class UserComponent {
                           error => console.error(error)
                         );
 
-      $('#myModal').modal('hide');
+      // $('#myModal').modal('hide');
       this.alert = '';
     }
       else this.alert = 'กรุณากรอกข้อมูลให้ครบ';
