@@ -9,7 +9,7 @@ import { DeviceService } from '../device/device.service'
 })
 export class DeviceDetailComponent {
 
-  private devices = [];
+  public devices = [];
 
   constructor(private route: ActivatedRoute, private deviceService: DeviceService) {
     const { id } = route.snapshot.params;
